@@ -34,18 +34,10 @@ export class LoginComponent implements OnInit {
   flag: boolean = false;
 
   onSubmit() {
-    this.data.push({
-      username: this.username,
-      password: this.password,
-    });
-    console.log(this.data);
     var req = {
       method: 'POST',
       url: 'http://localhost:8000/login',
-      data: JSON.stringify({
-        username: this.username,
-        password: this.password,
-      }),
+      data: JSON.stringify(this.login.value),
       headers: {
         'Content-Type': 'application/json',
       },
@@ -63,9 +55,7 @@ export class LoginComponent implements OnInit {
             text: 'Logged In Successfully',
             icon: 'success',
           });
-          this.route.navigate(['/profile']);
         } else {
-          // res.render('Invalid Credentials');
           swal.fire({
             title: 'Try Again',
             text: 'Invalid Credentials',

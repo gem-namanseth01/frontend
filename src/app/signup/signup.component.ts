@@ -23,30 +23,31 @@ export class SignupComponent implements OnInit {
     private route: Router
   ) {}
 
-  signUp = this.fb.group(
-    {
-      username: ['', Validators.required],
-      email: ['', Validators.required, this.validateEmail],
-      password: ['', Validators.required, Validators.minLength(8)],
-    },
-    { updateOn: 'onSubmit' }
-  );
+  signUp = this.fb.group({
+    username: ['', Validators.required],
+    email: ['', [Validators.required, this.validateEmail]],
+    password: ['', [Validators.required, Validators.minLength(8)]],
+  });
 
   onSubmit() {
-    var req = {
-      method: 'POST',
-      url: 'http://localhost:8000/signup',
-      data: JSON.stringify(this.signUp.value),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    };
-    this.http
-      .post<any>(req.url, req.data, { headers: req.headers })
-      .subscribe((res) => {
-        console.log(res);
-      });
-    this.route.navigate(['/login']);
+    if (this.signUp.valid) {
+      var req = {
+        method: 'POST',
+        url: 'http://localhost:8000/signup',
+        data: JSON.stringify(this.signUp.value),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      };
+      this.http
+        .post<any>(req.url, req.data, { headers: req.headers })
+        .subscribe((res) => {
+          console.log(res);
+          if (res) {
+            this.route.navigate(['/login']);
+          }
+        });
+    }
   }
 
   ngOnInit() {}

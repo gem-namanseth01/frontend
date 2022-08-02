@@ -4,10 +4,10 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class GetDataService {
-  pdata: any;
+  dataClone: any;
   constructor() {}
 
   getLoggedData(data: any) {
-    this.pdata = data;
+    this.dataClone = data;
   }
 }
